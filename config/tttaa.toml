@@ -1,0 +1,18 @@
+# 此配置文件用于存放项目数据库连接信息
+[mysql] # mysql 数据库默认
+host = "111.111.1.112"
+user = "root"
+password = "Password"
+database = "basename"
+charset = "utf8mb4"
+pool_mincached = 1
+pool_maxcached = 4
+pool_maxconnections = 10
+pool_blocking = true
+
+
+[redis] # redis 数据库默认
+host = "111.111.1.112"
+password = "Password"
+db = "basename"
+max_connections = 4
