@@ -1,3 +1,4 @@
 *.log
 database.toml
 allure-results/*
+__pycache__/
