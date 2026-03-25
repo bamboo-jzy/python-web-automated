@@ -8,7 +8,7 @@
     - 智能的数据摘要生成
     - 类型安全的返回结果
 
-作者：资深Python开发工程师
+作者：竹子是不秋草
 创建日期：2026-02-04
 最后修改：2026-03-24
 依赖：tomllib, pathlib, typing, pandas, common.log_config
