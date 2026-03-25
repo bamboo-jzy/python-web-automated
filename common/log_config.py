@@ -56,31 +56,19 @@ def setup_logger(
     Returns:
         logging.Logger: 配置好的 Logger 实例。
     """
-    # 确定日志目录
     target_log_dir = log_dir if log_dir else DEFAULT_LOG_DIR
     
-    # 获取或创建 logger
     logger = logging.getLogger(name)
     
-    # 防止重复添加 Handler (关键优化)
-    # 如果 logger 已经有 handler 且不是由本函数逻辑控制的（或者为了避免多次调用本函数重复添加）
-    # 这里我们检查是否已经添加过我们特定类型的 handler，或者简单检查 handlers 列表
-    # 最佳实践：如果是应用启动时的统一配置，通常假设只调用一次。
-    # 但为了安全，如果 handlers 已存在，我们不再重复添加，除非显式需要重置。
     if logger.handlers:
-        # 如果已经配置过，直接返回，避免重复打印
-        # 注意：如果需要动态更改级别，可以在这里调整 logger.setLevel(level)
         return logger
 
     logger.setLevel(level)
     logger.propagate = False  # 防止日志传播到父级 logger 造成重复
 
-    # 创建格式化器
     formatter = logging.Formatter(LOG_FORMAT, DATE_FORMAT)
 
-    # --- 文件处理器配置 ---
     try:
-        # 确保目录存在
         target_log_dir.mkdir(parents=True, exist_ok=True)
 
         # 1. 全量日志处理器 (all.log)
@@ -110,9 +98,7 @@ def setup_logger(
         logger.addHandler(error_file_handler)
 
     except (OSError, PermissionError) as e:
-        # 如果文件写入失败（如权限不足），不崩溃程序，而是通过临时控制台输出警告
         print(f"Warning: Failed to initialize file logging for '{name}': {e}", file=sys.stderr)
-        # 即使文件失败，如果用户请求了 console，下面依然会添加 console handler
 
     # --- 控制台处理器配置 ---
     if console:
@@ -125,8 +111,6 @@ def setup_logger(
 
 
 if __name__ == "__main__":
-    # 示例用法
-    # 启用 console=True 以便在运行时看到输出
     logger = setup_logger(name=__name__, console=True)
     
     logger.debug("DEBUG 测试消息")
@@ -135,6 +119,5 @@ if __name__ == "__main__":
     logger.error("ERROR 测试消息")
     logger.critical("CRITICAL 测试消息")
     
-    # 测试重复调用（应该不会重复输出）
     logger2 = setup_logger(name=__name__, console=True)
     logger2.info("这是一条重复调用后的测试消息（应只出现一次）")
