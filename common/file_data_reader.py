@@ -300,11 +300,8 @@ class FileDataReader:
 
 
 if __name__ == "__main__":
-    # 示例用法
-    # 假设项目结构允许访问 config/database.toml
     test_file = "config/database.toml"
 
-    # 创建临时测试文件以便演示 (实际使用时不需要)
     Path("config").mkdir(exist_ok=True)
     if not Path(test_file).exists():
         Path(test_file).write_text(
